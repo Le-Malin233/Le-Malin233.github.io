@@ -149,6 +149,7 @@ body {
     font-size: 1.8rem;
     transition: all 0.2s ease;
     display: inline-flex;
+    text-decoration: none; 
 }
 .social-links a:hover {
     color: #3b82f6;
