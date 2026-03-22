@@ -1,4 +1,4 @@
-// pagination.js - 纯渲染模式（支持分页，从 window.DEFAULT_MARKDOWN 读取内容）
+// pagination.js - 支持分页，从 window.DEFAULT_MARKDOWN 读取内容
 document.addEventListener('DOMContentLoaded', () => {
     const paginationDiv = document.getElementById('pagination');
     const mainContent = document.querySelector('.main-content');
