@@ -1,151 +1,47 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Le Malin</title>
-    <style>
-        :root {
-            --bg: #f8f9fa;
-            --text: #2c3e50;
-            --card: #ffffff;
-            --accent: #ff6b6b; 
-        }
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg: #121212;
-                --text: #e0e0e0;
-                --card: #1e1e1e;
-            }
-        }
-
-        * { margin:0; padding:0; box-sizing:border-box; }
-        body {
-            font-family: "Segoe UI", Arial, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-        .card {
-            background: var(--card);
-            max-width: 420px;
-            width: 100%;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-            text-align: center;
-            transition: transform 0.3s;
-        }
-        .card:hover { transform: translateY(-10px); }
-
-        .avatar {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            margin: 30px auto 10px;
-            object-fit: cover;
-            border: 5px solid var(--accent);
-        }
-        h1 {
-            font-size: 28px;
-            margin: 10px 0;
-            color: var(--accent);
-        }
-        .tagline {
-            color: #888;
-            font-size: 16px;
-            margin-bottom: 20px;
-        }
-        .bio {
-            padding: 0 30px;
-            margin-bottom: 25px;
-            font-size: 15px;
-        }
-        .links {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 12px;
-            padding: 0 20px 30px;
-        }
-        .links a {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 20px;
-            background: var(--accent);
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            font-size: 14px;
-            transition: all 0.3s;
-        }
-        .links a:hover {
-            transform: scale(1.08);
-            box-shadow: 0 5px 15px rgba(255,107,107,0.4);
-        }
-        .links a i { font-size: 18px; }
-
-        footer {
-            margin-top: 40px;
-            font-size: 14px;
-            color: #aaa;
-        }
-    </style>
-    <!-- 图标库（可选） -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Personal Homepage</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
- 
-<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
-<div id="particles-js"></div>
-<script>
-particlesJS("particles-js", {"particles":{"number":{"value":80},"color":{"value":"#ff6b6b"},"shape":{"type":"circle"},"opacity":{"value":0.5},"size":{"value":3},"move":{"speed":1}}});
-</script>
-<style>#particles-js{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;}</style>
-
 <body>
-<div class="card">
-    <!-- 1. 替换成你的头像（放同目录下或用网络链接） -->
-    <img src="https://avatars.githubusercontent.com/u/你的githubid?v=4" alt="头像" class="avatar">
-    <!-- 或者本地图片：src="myphoto.jpg" -->
-
-    <h1>Le Malin</h1>
-    <p class="tagline">line</p>
-
-    <div class="bio">
-        line1<br>
-        line2
+  <!-- 左侧栏 -->
+  <aside class="sidebar">
+    <div class="profile">
+      <img src="https://avatars.githubusercontent.com/u/139576166?v=4" alt="Profile Picture" class="avatar">
+      <h1>Le-Malin233</h1>
+      <p>Passionate developer, writer, and creator.</p>
+      <ul class="social-links">
+        <li><a href="https://github.com/Le-Malin233" target="_blank">GitHub</a></li>
+        <li><a href="#">LinkedIn</a></li>
+        <li><a href="#">Twitter</a></li>
+      </ul>
     </div>
+  </aside>
 
-    <div class="links">
-        <!-- 直接改链接和图标就行 -->
-        <a href="https://github.com/yourname" target="_blank">
-            <i class="fab fa-github"></i> GitHub
-        </a>
-        <a href="https://weibo.com/yourname" target="_blank">
-            <i class="fab fa-weibo"></i> 微博
-        </a>
-        <a href="https://space.bilibili.com/123456" target="_blank">
-            <i class="fab fa-bilibili"></i> B站
-        </a>
-        <a href="mailto:your@email.com">
-            <i class="fas fa-envelope"></i> 邮件
-        </a>
-        <a href="https://yourblog.com" target="_blank">
-            <i class="fas fa-blog"></i> 博客
-        </a>
-        <a href="https://juejin.cn/user/你的id" target="_blank">
-            <i class="fab fa-juejin"></i> 掘金
-        </a>
-    </div>
-</div>
+  <!-- 右侧主要内容 -->
+  <main class="content">
+    <section class="projects">
+      <h2>Projects</h2>
+      <ul>
+        <li><a href="#">Project 1: A cool web app</a></li>
+        <li><a href="#">Project 2: Another great tool</a></li>
+        <li><a href="#">Project 3: Open-source contributions</a></li>
+      </ul>
+    </section>
 
-<footer>© 2025 Le Malin的个人主页</footer>
+    <section class="articles">
+      <h2>Articles</h2>
+      <ul>
+        <li><a href="#">Article 1: Modern Web Development</a></li>
+        <li><a href="#">Article 2: Understanding CSS</a></li>
+        <li><a href="#">Article 3: A Guide to JavaScript</a></li>
+      </ul>
+    </section>
+  </main>
 
+  <script src="script.js"></script>
 </body>
 </html>
