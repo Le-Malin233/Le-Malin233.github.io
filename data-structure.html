@@ -7,38 +7,32 @@
     <link rel="icon" href="images/favicon.svg" type="image/svg">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="common.css">
+    <script src="data-structure.js"></script>
+    <!-- 引入 marked 和 EasyMDE（编辑器依赖） -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- 分页和编辑器逻辑 -->
     <script src="pagination.js" defer></script>
+
 </head>
 <body class="article-page">
 <div class="container">
-    <!-- 左侧栏（与主页完全相同） -->
-     <aside class="sidebar">
-        <div class="avatar">
-            <div class="avatar-circle"><img src="images/avatar.jpg" alt="头像"></div>
-        </div>
+    <!-- 左侧栏（与主页相同） -->
+    <aside class="sidebar">
+        <div class="avatar"><div class="avatar-circle"><img src="images/avatar.jpg" alt="头像"></div></div>
         <div class="name">Le Malin</div>
         <div style="text-align: center;">
-            <span class="title"><i style="margin-right: 6px;"></i>Shanghai Jiao Tong University, <br>Computer Science and Technology</span>
+            <span class="title">Shanghai Jiao Tong University, <br>Computer Science and Technology</span>
         </div>
-        <div class="bio">
-            Le Malin 是恶毒，空想级驱逐舰3号舰
-        </div>
-        <div class="info-item">
-            <i class="fas fa-map-marker-alt"></i> <span>Shanghai, China</span>
-        </div>
-        <div class="info-item">
-            <i class="fas fa-envelope"></i> <span>2206475800@qq.com</span>
-        </div>
-        <div class="info-item">
-            <i class="fas fa-laptop-code"></i> <span>Undergraduate</span>
-        </div>
+        <div class="bio">Le Malin 是恶毒，空想级驱逐舰3号舰</div>
+        <div class="info-item"><i class="fas fa-map-marker-alt"></i> <span>Shanghai, China</span></div>
+        <div class="info-item"><i class="fas fa-envelope"></i> <span>2206475800@qq.com</span></div>
+        <div class="info-item"><i class="fas fa-laptop-code"></i> <span>Undergraduate</span></div>
         <div class="social-links">
-            <a href="https://github.com/Le-Malin233" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fab fa-github"></i></a>
-            <a href="https://space.bilibili.com/204257229" target="_blank" rel="noopener noreferrer" aria-label="Bilibili"><i class="fab fa-bilibili"></i></a>
-            <a href="https://www.jetphotos.com/photographer/520278" target="_blank" rel="noopener noreferrer" aria-label="Jetphotos"><i class="fa-solid fa-camera"></i></a>
+            <a href="https://github.com/Le-Malin233" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i></a>
+            <a href="https://space.bilibili.com/204257229" target="_blank" rel="noopener noreferrer"><i class="fab fa-bilibili"></i></a>
+            <a href="https://www.jetphotos.com/photographer/520278" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-camera"></i></a>
         </div>
     </aside>
-
 
     <!-- 右侧文章详情 -->
     <main class="main-content">
@@ -48,110 +42,16 @@
             <div class="article-meta">
                 <span><i class="fas fa-globe"></i> 文章</span>
                 <span><i class="far fa-calendar-alt"></i> 2026.3.22</span>
-                 <span><i class="far fa-clock"></i> 2026.3.22</span>
+                <span><i class="far fa-clock"></i> 2026.3.22</span>
             </div>
-            <div class="article-body">
-                <div id="page-container">
-                    <div class="page active" data-page="1">
-                        <p>在大三选择重修两年前这门课，希望通过两年来的学习对这门课程有更深刻的见解。本文将持续更新这一学期学习过程中的思考与感悟。</p>
-                        <h2>2026.3.22</h2> 
-                        <h3>顺序表与链表</h3>
-                        <p>顺序表在内存中是一段连续的空间，因此可以通过索引直接访问任意元素。但是，顺序表插入和删除元素并不那么容易，在插入时，所有后面的元素都要向后移动一位，同理，删除元素时，所有后面的元素都要向前移动一位，这就造成了 O(n) 的时间复杂度。</p>
-                        <p>链表由一系列节点组成，每个节点包含数据和指向下一个节点的指针，此外，每个链表都拥有一个头结点用来标记链表的起始位置。这些节点在内存中不是连续存储的，所以我们不能直接读取某个节点中的数据，必须通过头结点逐个访问到需要读取数据的节点。但是，链表在插入和删除时只需要常数时间，因为它只影响相邻的两个节点。<b>需要特别注意的是</b>，在插入和删除操作时，必须先将指针指向后半部分的第一个节点，再将新节点插入或把节点删除，否则会导致链表断裂。</p>
-                        <p>除了简单的单链表，还有双链表和循环链表。双链表有头尾两个特殊节点，每两个相邻节点间有双向指针，便于数据访问。循环链表的最后一个节点指向头结点，形成一个环状结构，同样也可设计一个双向的循环链表，这里不再展开。</p>
-                        <h3>栈</h3>
-                        <p>栈是经典的先进后出数据结构，在许多算法中都有应用。从数据结构的角度看，栈的实现分为<b>顺序栈</b>和<b>链接栈</b>两种方式。</p>
-                        <p>对于顺序栈，我们只需维护一个数组和一个下标<code>top_p</code>即可。<code>top_p</code>被初始化为-1，表示栈为空，有元素进栈则+1，出栈则-1。因为是模拟栈的设计，我们所有操作都只对下标为<code>top_p</code>的元素进行。</p>
-                        <p>对于链接栈，我们同样只需要维护一个指针<code>top_p</code>即可。<code>top_p</code>初始为NULL，表示栈为空。有元素进栈时，创建新节点并将其链接到栈顶，<code>top_p</code>指向新栈顶；出栈时，<code>top_p</code>指向新栈顶，再将栈顶节点移除。链接栈的链表结构和我们之前提到的链表略有区别，它的指针方向是<b>新节点指向旧节点</b>，而且因为我们只关注栈顶元素，它不需要头结点来标记整个链表。</p>
-                        <h3>栈的应用</h3>
-                        <p><b>函数调用：</b>当一个函数被调用时，系统会将该函数的局部变量和返回地址等信息压入栈中。当函数执行完毕后，这些信息会被弹出栈，恢复到调用该函数的上下文中。尤其是对于递归函数，多层的递归调用与返回，注定了栈是非常适合这个功能的数据结构。</p>
-                        <p><i class="fa-solid fa-star"></i><b>表达式求值：</b>栈可以用来实现表达式的计算，例如将中缀表达式转换为后缀表达式并进行求值。首先是将中缀表达式转换为后缀表达式，这点采用如下规则：
-                            <ul>
-                                <li>如果遇到操作数，直接输出到后缀表达式中。</li>
-                                <li>如果遇到左括号，将其压入栈中。</li>
-                                <li>如果遇到右括号，则将栈顶元素弹出并输出到后缀表达式中，直到遇到左括号为止，此时将左括号弹出但不输出。</li>
-                                <li>如果遇到运算符，则将其与栈顶运算符进行比较，如果当前运算符的优先级较高，则直接压入栈中；否则，将栈顶运算符弹出并输出到后缀表达式中，直到当前运算符的<b>优先级较高</b>或<b>遇到左括号</b>或<b>栈为空</b>为止，然后将当前运算符压入栈中。</li>
-                            </ul>
-                            下表展示了上述算法处理表达式<code>(5 + 6 * (7 + 3) / 3) / 4 + 5</code>的过程：
-                        </p>
-                         <table>
-                            <thead>
-                                <tr>
-                                    <th>序号</th>
-                                    <th>读剩的表达式</th>
-                                    <th>栈</th>
-                                    <th>输出</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr><td>1</td><td class="expression">(5 + 6 * (7 + 3) / 3) / 4 + 5</td><td></td><td></td></tr>
-                                <tr><td>2</td><td class="expression">5 + 6 * (7 + 3) / 3) / 4 + 5</td><td>(</td><td></td></tr>
-                                <tr><td>3</td><td class="expression">+ 6 * (7 + 3) / 3) / 4 + 5</td><td>(</td><td>5</td></tr>
-                                <tr><td>4</td><td class="expression">6 * (7 + 3) / 3) / 4 + 5</td><td>(+</td><td>5</td></tr>
-                                <tr><td>5</td><td class="expression">* (7 + 3) / 3) / 4 + 5</td><td>(+</td><td>5 6</td></tr>
-                                <tr><td>6</td><td class="expression">(7 + 3) / 3) / 4 + 5</td><td>(+ *</td><td>5 6</td></tr>
-                                <tr><td>7</td><td class="expression">7 + 3) / 3) / 4 + 5</td><td>(+ * (</td><td>5 6</td></tr>
-                                <tr><td>8</td><td class="expression">+ 3) / 3) / 4 + 5</td><td>(+ * ( +</td><td>5 6 7</td></tr>
-                                <tr><td>9</td><td class="expression">3) / 3) / 4 + 5</td><td>(+ * ( +</td><td>5 6 7</td></tr>
-                                <tr><td>10</td><td class="expression">) / 3) / 4 + 5</td><td>(+ * ( +</td><td>5 6 7 3</td></tr>
-                                <tr><td>11</td><td class="expression">/ 3) / 4 + 5</td><td>(+ *</td><td>5 6 7 3 +</td></tr>
-                                <tr><td>12</td><td class="expression">3) / 4 + 5</td><td>(+ /</td><td>5 6 7 3 + *</td></tr>
-                                <tr><td>13</td><td class="expression">) / 4 + 5</td><td>(+ /</td><td>5 6 7 3 + * 3</td></tr>
-                                <tr><td>14</td><td class="expression">/ 4 + 5</td><td></td><td>5 6 7 3 + * 3 / +</td></tr>
-                                <tr><td>15</td><td class="expression">4 + 5</td><td>/</td><td>5 6 7 3 + * 3 / +</td></tr>
-                                <tr><td>16</td><td class="expression">+ 5</td><td>/</td><td>5 6 7 3 + * 3 / + 4</td></tr>
-                                <tr><td>17</td><td class="expression">5</td><td>+</td><td>5 6 7 3 + * 3 / + 4 /</td></tr>
-                                <tr><td>18</td><td class="expression"></td><td>+</td><td>5 6 7 3 + * 3 / + 4 / 5</td></tr>
-                                <tr><td>19</td><td class="expression"></td><td></td><td>5 6 7 3 + * 3 / + 4 / 5 +</td></tr>
-                            </tbody>
-                        </table>
-                        <p>然后我们需要利用这个后缀表达式计算得到结果，这一步相对简单，我们只需要从左到右扫描后缀表达式，遇到操作数就压入栈中，遇到运算符就弹出两个操作数进行计算，将结果压入栈中，最后栈中剩下的那个数就是计算结果。需要特别注意的是，对于减法和除法，是用第二个弹出的数减去/除以第一个弹出的数.下表展示了上述后缀表达式的计算结果：</p>
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>序号</th>
-                                        <th>读剩的后缀表达式</th>
-                                        <th>栈</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr><td>1</td><td class="expression">5 6 7 3 + * 3 / + 4 / 5 +</td><td></td></tr>
-                                    <tr><td>2</td><td class="expression">6 7 3 + * 3 / + 4 / 5 +</td><td>5</td></tr>
-                                    <tr><td>3</td><td class="expression">7 3 + * 3 / + 4 / 5 +</td><td>5 6</td></tr>
-                                    <tr><td>4</td><td class="expression">3 + * 3 / + 4 / 5 +</td><td>5 6 7</td></tr>
-                                    <tr><td>5</td><td class="expression">+ * 3 / + 4 / 5 +</td><td>5 6 7 3</td></tr>
-                                    <tr><td>6</td><td class="expression">* 3 / + 4 / 5 +</td><td>5 6 10</td></tr>
-                                    <tr><td>7</td><td class="expression">3 / + 4 / 5 +</td><td>5 60</td></tr>
-                                    <tr><td>8</td><td class="expression">/ + 4 / 5 +</td><td>5 60 3</td></tr>
-                                    <tr><td>9</td><td class="expression">+ 4 / 5 +</td><td>5 20</td></tr>
-                                    <tr><td>10</td><td class="expression">4 / 5 +</td><td>25</td></tr>
-                                    <tr><td>11</td><td class="expression">/ 5 +</td><td>25 4</td></tr>
-                                    <tr><td>12</td><td class="expression">5 +</td><td>6.25</td></tr>
-                                    <tr><td>13</td><td class="expression">+</td><td>6.25 5</td></tr>
-                                    <tr><td>14</td><td class="expression"></td><td>11.25</td></tr>
 
-                                    </tbody>                           
-                            </table>
-                    </div>
-                    <div class="page" data-page="2">
-                        <p>test1</p>
-                    </div>
-                    <div class="page" data-page="3">
-                        <p>test2</p>
-                    </div>
-                    <div class="page" data-page="4">
-                        <p>test3</p>
-                    </div>
-                    <div class="page" data-page="5">
-                        <p>test4</p>
-                    </div>
+            <!-- 文章正文容器 -->
+            <div id="articleBody" class="article-body"></div>
 
-                </div>
-                <!-- 分页控件 -->
-                <div class="pagination" id="pagination"></div>
-            </div>
+            <!-- 分页控件 -->
+            <div id="pagination" class="pagination"></div>
         </div>
-         <div class="footer-note">
+        <div class="footer-note">
             <i class="far fa-comment-dots"></i> 每一个项目都是探索的脚印
         </div>
     </main>
