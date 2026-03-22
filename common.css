@@ -64,21 +64,23 @@ body {
 .avatar-circle {
     width: 120px;
     height: 120px;
-    background: linear-gradient(135deg, #3b82f6, #6366f1);
     border-radius: 50%;
+    overflow: hidden;          /* 确保图片超出部分隐藏，保持圆形 */
+    background: #f0f0f0;       /* 可选：图片加载时的背景色 */
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 15px 25px -8px rgba(59, 130, 246, 0.3);
-    transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    box-shadow: 0 15px 25px -8px rgba(59,130,246,0.3);
+    transition: transform 0.3s cubic-bezier(0.2,0.9,0.4,1.1);
 }
-.avatar-circle span {
-    font-size: 3rem;
-    font-weight: 600;
-    color: white;
-    letter-spacing: 2px;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+.avatar-circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;         /* 确保图片覆盖整个圆形区域，可能裁剪边缘 */
+    display: block;
 }
+
 .avatar-circle:hover {
     transform: scale(1.02);
 }
