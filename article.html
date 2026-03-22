@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>文章详情 | 林语晨</title>
+    <!-- 引入 Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(145deg, #f8fafc 0%, #f1f5f9 100%);
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            color: #0f172a;
+            line-height: 1.6;
+        }
+
+        /* 文章容器 */
+        .article-wrapper {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .article-container {
+            max-width: 900px;
+            width: 100%;
+            background: #ffffff;
+            border-radius: 2rem;
+            box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            animation: slideUp 0.5s ease-out;
+        }
+
+        /* 返回按钮区域 */
+        .nav-bar {
+            padding: 1.5rem 2rem 0 2rem;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #f1f5f9;
+            color: #3b82f6;
+            text-decoration: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 2rem;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+            border: 1px solid #e2e8f0;
+        }
+
+        .back-btn i {
+            font-size: 0.8rem;
+            transition: transform 0.2s;
+        }
+
+        .back-btn:hover {
+            background: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+            transform: translateX(-3px);
+        }
+
+        .back-btn:hover i {
+            transform: translateX(-3px);
+        }
+
+        /* 文章主体内容 */
+        .article-content {
+            padding: 0 2rem 2rem 2rem;
+        }
+
+        .article-header {
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #eef2ff;
+            padding-bottom: 1.5rem;
+        }
+
+        .article-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            line-height: 1.3;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #0f172a, #2d3a5e);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .article-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            align-items: center;
+            font-size: 0.9rem;
+            color: #5b6e8c;
+        }
+
+        .article-type {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #f1f5f9;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-weight: 600;
+            color: #2563eb;
+        }
+
+        .article-date {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .article-date i {
+            color: #94a3b8;
+        }
+
+        .article-reading-time {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* 文章正文样式 */
+        .article-body {
+            font-size: 1.05rem;
+            color: #1e293b;
+        }
+
+        .article-body p {
+            margin-bottom: 1.25rem;
+            line-height: 1.7;
+        }
+
+        .article-body h3 {
+            margin: 1.5rem 0 0.75rem 0;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .article-body h4 {
+            margin: 1.2rem 0 0.5rem 0;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .article-body ul, .article-body ol {
+            margin: 0.75rem 0 1rem 1.5rem;
+        }
+
+        .article-body li {
+            margin-bottom: 0.4rem;
+        }
+
+        .article-body blockquote {
+            border-left: 4px solid #3b82f6;
+            padding-left: 1.2rem;
+            margin: 1rem 0;
+            color: #475569;
+            font-style: italic;
+        }
+
+        .article-body code {
+            background: #f1f5f9;
+            padding: 0.2rem 0.4rem;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #dc2626;
+        }
+
+        .article-body pre {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 1rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        /* 加载和错误状态 */
+        .loading-state, .error-state {
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+
+        .loading-state i, .error-state i {
+            font-size: 3rem;
+            color: #3b82f6;
+            margin-bottom: 1rem;
+        }
+
+        .error-state {
+            color: #ef4444;
+        }
+
+        /* 文章底部 */
+        .article-footer {
+            margin-top: 2.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #eef2ff;
+            text-align: center;
+        }
+
+        .share-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .share-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0.5rem 1rem;
+            background: #f8fafc;
+            border-radius: 2rem;
+            color: #475569;
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .share-btn:hover {
+            background: #3b82f6;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* 动画 */
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .article-wrapper {
+                padding: 1rem;
+            }
+            
+            .article-title {
+                font-size: 1.6rem;
+            }
+            
+            .article-content {
+                padding: 0 1.5rem 1.5rem 1.5rem;
+            }
+            
+            .nav-bar {
+                padding: 1rem 1.5rem 0 1.5rem;
+            }
+            
+            .article-meta {
+                gap: 0.8rem;
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .article-title {
+                font-size: 1.4rem;
+            }
+            
+            .share-buttons {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="article-wrapper">
+        <div class="article-container" id="articleContainer">
+            <!-- 加载状态 -->
+            <div class="loading-state" id="loadingState">
+                <i class="fas fa-spinner fa-pulse"></i>
+                <p>加载文章中...</p>
+            </div>
+            
+            <!-- 文章内容将动态插入这里 -->
+            <div id="articleContent" style="display: none;"></div>
+        </div>
+    </div>
+
+    <script>
+        // 获取URL参数中的id
+        function getUrlParameter(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+
+        // 格式化日期
+        function formatDate(dateStr) {
+            const date = new Date(dateStr);
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}年${month}月${day}日`;
+        }
+
+        // 估算阅读时间（基于文字数量）
+        function estimateReadingTime(content) {
+            const text = content.replace(/<[^>]*>/g, '');
+            const words = text.split(/\s+/).length;
+            const minutes = Math.max(1, Math.ceil(words / 300));
+            return `${minutes} 分钟阅读`;
+        }
+
+        // 加载文章详情
+        function loadArticle() {
+            const articleId = parseInt(getUrlParameter('id'));
+            
+            // 从 localStorage 获取文章数据
+            let articlesData = [];
+            const storedData = localStorage.getItem('articlesData');
+            
+            if (storedData) {
+                articlesData = JSON.parse(storedData);
+            } else {
+                // 如果 localStorage 没有数据，使用默认数据（备用）
+                articlesData = [
+                    {
+                        id: 1,
+                        title: "设计系统构建实战",
+                        type: "项目",
+                        typeIcon: "fas fa-palette",
+                        date: "2025-02-18",
+                        contentDetail: "<p>设计系统不仅是一堆可复用的UI组件，更是一套团队的工作语言...</p>"
+                    }
+                    // ... 其他数据可以补充
+                ];
+            }
+            
+            const article = articlesData.find(a => a.id === articleId);
+            
+            const loadingState = document.getElementById('loadingState');
+            const articleContent = document.getElementById('articleContent');
+            
+            if (!article) {
+                // 文章不存在
+                loadingState.innerHTML = `
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <p>文章不存在或已被删除</p>
+                    <a href="index.html" style="color: #3b82f6; margin-top: 1rem; display: inline-block;">返回首页</a>
+                `;
+                return;
+            }
+            
+            // 隐藏加载状态，显示文章内容
+            loadingState.style.display = 'none';
+            articleContent.style.display = 'block';
+            
+            // 计算阅读时间
+            const readingTime = estimateReadingTime(article.contentDetail);
+            const formattedDate = formatDate(article.date);
+            
+            // 构建文章HTML
+            articleContent.innerHTML = `
+                <div class="nav-bar">
+                    <a href="index.html" class="back-btn">
+                        <i class="fas fa-arrow-left"></i> 返回首页
+                    </a>
+                </div>
+                <div class="article-content">
+                    <div class="article-header">
+                        <h1 class="article-title">${escapeHtml(article.title)}</h1>
+                        <div class="article-meta">
+                            <span class="article-type">
+                                <i class="${article.typeIcon}"></i> ${article.type}
+                            </span>
+                            <span class="article-date">
+                                <i class="far fa-calendar-alt"></i> ${formattedDate}
+                            </span>
+                            <span class="article-reading-time">
+                                <i class="far fa-clock"></i> ${readingTime}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="article-body">
+                        ${article.contentDetail}
+                    </div>
+                    <div class="article-footer">
+                        <div class="share-buttons">
+                            <a href="#" class="share-btn" id="shareTwitter">
+                                <i class="fab fa-twitter"></i> 分享到 Twitter
+                            </a>
+                            <a href="#" class="share-btn" id="shareWeibo">
+                                <i class="fab fa-weibo"></i> 分享到微博
+                            </a>
+                            <a href="#" class="share-btn" id="copyLink">
+                                <i class="fas fa-link"></i> 复制链接
+                            </a>
+                        </div>
+                        <p style="font-size: 0.8rem; color: #94a3b8; margin-top: 1rem;">
+                            <i class="far fa-heart"></i> 感谢阅读 · 欢迎分享交流
+                        </p>
+                    </div>
+                </div>
+            `;
+            
+            // 添加分享功能
+            const currentUrl = encodeURIComponent(window.location.href);
+            const shareText = encodeURIComponent(`我正在阅读《${article.title}》，推荐给大家！`);
+            
+            document.getElementById('shareTwitter')?.addEventListener('click', (e) => {
+                e.preventDefault();
+                window.open(`https://twitter.com/intent/tweet?text=${shareText}&url=${currentUrl}`, '_blank');
+            });
+            
+            document.getElementById('shareWeibo')?.addEventListener('click', (e) => {
+                e.preventDefault();
+                window.open(`http://service.weibo.com/share/share.php?title=${shareText}&url=${currentUrl}`, '_blank');
+            });
+            
+            document.getElementById('copyLink')?.addEventListener('click', (e) => {
+                e.preventDefault();
+                navigator.clipboard.writeText(window.location.href).then(() => {
+                    alert('链接已复制到剪贴板！');
+                }).catch(() => {
+                    alert('复制失败，请手动复制');
+                });
+            });
+        }
+        
+        // 转义HTML
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/[&<>]/g, function(m) {
+                if (m === '&') return '&amp;';
+                if (m === '<') return '&lt;';
+                if (m === '>') return '&gt;';
+                return m;
+            }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
+                return c;
+            });
+        }
+        
+        // 页面加载时执行
+        window.addEventListener('DOMContentLoaded', loadArticle);
+    </script>
+</body>
+</html>
