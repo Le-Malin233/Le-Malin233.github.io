@@ -21,19 +21,28 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     let markdownContent = null;
+try {
+    const response = await fetch(mdFilePath);
+    if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+    markdownContent = await response.text();
 
-    try {
-        const response = await fetch(mdFilePath);
-        if (!response.ok) {
-            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+    // --- 更新最后修改时间 ---
+    const lastModified = response.headers.get('Last-Modified');
+    if (lastModified) {
+        const date = new Date(lastModified);
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1;
+        const day = date.getDate();
+        const formattedDate = `${year}.${month}.${day}`;
+        const timeSpan = document.getElementById('article-update-time');
+        if (timeSpan) {
+            timeSpan.innerHTML = `<i class="far fa-clock"></i> ${formattedDate}`;
         }
-        markdownContent = await response.text();
-    } catch (error) {
-        console.error('加载 Markdown 文件失败:', error);
-        articleBody.innerHTML = `<p style="color: red;">无法加载内容：${error.message}</p>`;
-        return;
     }
-
+} catch (error) {
+    // ...
+}
+    
     // 解析分页
     const rawPages = markdownContent.split(/<!--\s*pagebreak\s*-->/);
     let pages = rawPages.map(pageMd => marked.parse(pageMd.trim()));
