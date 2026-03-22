@@ -61,6 +61,22 @@ body {
         margin-bottom: 1rem;   /* 可选：增加与内容的间距 */
     }
 }
+
+/* 文章详情页在移动端隐藏侧边栏，主内容区域占满整行 */
+@media (max-width: 850px) {
+    body.article-page .sidebar {
+        display: none;
+    }
+    body.article-page .container {
+        grid-template-columns: 1fr;   /* 强制单列布局，避免空白列 */
+    }
+    /* 可选：确保主内容区域占满 */
+    body.article-page .main-content {
+        grid-column: span 1;
+        width: 100%;
+    }
+}
+
 .sidebar:hover {
     box-shadow: 0 25px 40px -16px rgba(0, 0, 0, 0.1);
     transform: translateY(-3px);
