@@ -515,3 +515,27 @@ body {
     display: block;
     animation: fadeSlideUp 0.4s ease-out;
 }
+
+table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px 0;
+             font-size: 14px; 
+        }
+        th, td {
+            border: 1px solid #333;
+            padding: 2px 12px;
+            text-align: left;
+            vertical-align: top;
+            font-size: 14px; 
+        }
+        th {
+            background-color: #f0f0f0;
+            font-weight: bold;
+        }
+
+        .expression {
+
+            word-break: break-all;
+            white-space: pre-wrap;
+        }
