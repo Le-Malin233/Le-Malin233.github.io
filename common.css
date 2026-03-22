@@ -159,6 +159,7 @@ body {
 /* ========= 右侧卡片区域 ========= */
 .main-content {
     animation: fadeSlideUp 0.5s ease-out;
+    transition: height 1.5s ease-out;  /* 新增高度过渡 */
 }
 .section-header {
     display: flex;
@@ -441,4 +442,76 @@ body {
     .article-content {
         padding: 1.5rem;
     }
+}
+/* ========== 分页样式 ========== */
+.pagination {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+/* 通用按钮样式（首尾、上一页、下一页） */
+.pagination .nav-btn,
+.pagination .first-btn,
+.pagination .last-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1.1rem;
+    color: #57606a;
+    padding: 0 0.5rem;
+    transition: color 0.2s, opacity 0.2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.pagination .nav-btn:hover,
+.pagination .first-btn:hover,
+.pagination .last-btn:hover {
+    color: #0366d6;
+}
+.pagination .nav-btn.disabled,
+.pagination .first-btn.disabled,
+.pagination .last-btn.disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* 页码圆圈 */
+.pagination .page-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid #d0d7de;
+    background: #ffffff;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.pagination .page-btn:hover:not(.active) {
+    background: #f6f8fa;
+    border-color: #c0c7cd;
+}
+.pagination .page-btn.active {
+    background: #0366d6;
+    border-color: #0366d6;
+    color: white;
+    cursor: default;
+}
+
+/* 页面切换动画 */
+.page {
+    display: none;
+    animation: none;
+}
+.page.active {
+    display: block;
+    animation: fadeSlideUp 0.4s ease-out;
 }
