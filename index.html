@@ -1,47 +1,723 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Personal Homepage</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Le Malin</title>
+    <!-- 引入 Font Awesome 6 (免费图标库，用于社交图标和装饰) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(145deg, #f8fafc 0%, #f1f5f9 100%);
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            color: #0f172a;
+            line-height: 1.5;
+            scroll-behavior: smooth;
+        }
+
+        /* 自定义滚动条 */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #e2e8f0;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #94a3b8;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #5b6e8c;
+        }
+
+        /* 主容器：网格布局 */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        /* ========= 左侧栏样式 ========= */
+        .sidebar {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(2px);
+            border-radius: 2rem;
+            padding: 2rem 1.5rem;
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.02);
+            transition: transform 0.25s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+        .sidebar:hover {
+            box-shadow: 0 25px 40px -16px rgba(0, 0, 0, 0.1);
+            transform: translateY(-3px);
+        }
+
+        .avatar {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+        .avatar-circle {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #3b82f6, #6366f1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 15px 25px -8px rgba(59,130,246,0.3);
+            transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+        .avatar-circle span {
+            font-size: 3rem;
+            font-weight: 600;
+            color: white;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .avatar-circle:hover {
+            transform: scale(1.02);
+        }
+
+        .name {
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-align: center;
+            background: linear-gradient(120deg, #0f172a, #1e293b);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-bottom: 0.5rem;
+        }
+        .title {
+            text-align: center;
+            font-weight: 500;
+            color: #3b82f6;
+            background: #eef2ff;
+            display: inline-block;
+            width: auto;
+            margin: 0 auto 1rem auto;
+            padding: 0.25rem 1rem;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            letter-spacing: 0.3px;
+            backdrop-filter: blur(2px);
+        }
+        .bio {
+            text-align: center;
+            color: #334155;
+            margin: 1rem 0 1.5rem 0;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            padding: 0 0.25rem;
+        }
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.9rem;
+            color: #1e293b;
+            font-size: 0.9rem;
+            background: #f8fafc;
+            padding: 0.6rem 1rem;
+            border-radius: 1.2rem;
+            transition: background 0.2s;
+        }
+        .info-item i {
+            width: 24px;
+            color: #3b82f6;
+            font-size: 1.1rem;
+        }
+        .info-item:hover {
+            background: #ffffff;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.4rem;
+            margin-top: 1.8rem;
+            flex-wrap: wrap;
+        }
+        .social-links a {
+            color: #475569;
+            font-size: 1.5rem;
+            transition: all 0.2s ease;
+            display: inline-flex;
+        }
+        .social-links a:hover {
+            color: #3b82f6;
+            transform: translateY(-3px) scale(1.05);
+        }
+
+        /* ========= 右侧区域 ========= */
+        .main-content {
+            animation: fadeSlideUp 0.5s ease-out;
+        }
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            margin-bottom: 1.8rem;
+            border-left: 4px solid #3b82f6;
+            padding-left: 1rem;
+        }
+        .section-header h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            background: linear-gradient(135deg, #0f172a, #2d3a5e);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        .section-header p {
+            color: #5b6e8c;
+            font-size: 0.9rem;
+        }
+
+        /* 卡片网格 */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.8rem;
+        }
+
+        /* 卡片样式 */
+        .card {
+            background: #ffffff;
+            border-radius: 1.6rem;
+            padding: 1.5rem;
+            transition: all 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            box-shadow: 0 8px 20px -6px rgba(0, 0, 0, 0.05), 0 1px 1px rgba(0, 0, 0, 0.02);
+            border: 1px solid rgba(203, 213, 225, 0.4);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            backdrop-filter: blur(2px);
+        }
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 24px 36px -12px rgba(0, 0, 0, 0.15);
+            border-color: #cbd5e1;
+        }
+
+        .card-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #f1f5f9;
+            padding: 0.2rem 0.8rem;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            width: fit-content;
+            margin-bottom: 1rem;
+            color: #2563eb;
+            letter-spacing: 0.3px;
+        }
+        .card-tag i {
+            font-size: 0.7rem;
+        }
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            line-height: 1.3;
+            color: #0f172a;
+        }
+        .card-preview {
+            color: #334155;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin: 0.5rem 0 1.2rem 0;
+            flex: 1;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 0.5rem;
+            font-size: 0.75rem;
+            color: #64748b;
+            border-top: 1px solid #eef2ff;
+            padding-top: 0.9rem;
+        }
+        .read-more-btn {
+            background: none;
+            border: none;
+            font-weight: 600;
+            color: #3b82f6;
+            cursor: pointer;
+            font-size: 0.85rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 0.4rem 0.8rem;
+            border-radius: 2rem;
+            transition: all 0.2s;
+            background: #eff6ff;
+        }
+        .read-more-btn i {
+            font-size: 0.7rem;
+            transition: transform 0.2s;
+        }
+        .read-more-btn:hover {
+            background: #3b82f6;
+            color: white;
+            gap: 8px;
+        }
+        .read-more-btn:hover i {
+            transform: translateX(3px);
+            color: white;
+        }
+        .date-badge {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* 模态框样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.25s ease;
+        }
+        .modal.active {
+            display: flex;
+            opacity: 1;
+        }
+        .modal-content {
+            background: #ffffff;
+            max-width: 700px;
+            width: 90%;
+            max-height: 85vh;
+            border-radius: 2rem;
+            padding: 1.8rem 2rem 2rem;
+            position: relative;
+            overflow-y: auto;
+            transform: scale(0.96);
+            transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.2);
+            box-shadow: 0 40px 60px -20px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .modal.active .modal-content {
+            transform: scale(1);
+        }
+        .modal-content::-webkit-scrollbar {
+            width: 5px;
+        }
+        .close-modal {
+            position: absolute;
+            top: 1.2rem;
+            right: 1.5rem;
+            background: #f1f5f9;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #475569;
+            width: 36px;
+            height: 36px;
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        .close-modal:hover {
+            background: #e2e8f0;
+            color: #0f172a;
+            transform: rotate(90deg);
+        }
+        .modal-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            padding-right: 2rem;
+            color: #0f172a;
+        }
+        .modal-meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.8rem;
+            color: #5b6e8c;
+            border-bottom: 1px solid #eef2ff;
+            padding-bottom: 0.8rem;
+        }
+        .modal-body {
+            font-size: 1rem;
+            line-height: 1.65;
+            color: #1e293b;
+        }
+        .modal-body p {
+            margin-bottom: 1rem;
+        }
+        .modal-body h4 {
+            margin: 1rem 0 0.5rem;
+            font-weight: 600;
+        }
+
+        /* 动画 */
+        @keyframes fadeSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 响应式 */
+        @media (max-width: 850px) {
+            .container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                padding: 1.5rem;
+            }
+            .sidebar {
+                max-width: 500px;
+                margin: 0 auto;
+                width: 100%;
+            }
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+            .section-header h2 {
+                font-size: 1.6rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .modal-content {
+                padding: 1.5rem;
+            }
+            .modal-title {
+                font-size: 1.4rem;
+            }
+            .card-title {
+                font-size: 1.25rem;
+            }
+        }
+
+        /* 额外美化 */
+        .footer-note {
+            text-align: center;
+            margin-top: 3rem;
+            color: #62748c;
+            font-size: 0.75rem;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 1.8rem;
+        }
+        button {
+            cursor: pointer;
+        }
+        a {
+            text-decoration: none;
+        }
+    </style>
 </head>
 <body>
-  <!-- 左侧栏 -->
-  <aside class="sidebar">
-    <div class="profile">
-      <img src="https://avatars.githubusercontent.com/u/139576166?v=4" alt="Profile Picture" class="avatar">
-      <h1>Le-Malin233</h1>
-      <p>Passionate developer, writer, and creator.</p>
-      <ul class="social-links">
-        <li><a href="https://github.com/Le-Malin233" target="_blank">GitHub</a></li>
-        <li><a href="#">LinkedIn</a></li>
-        <li><a href="#">Twitter</a></li>
-      </ul>
+
+<div class="container">
+    <!-- 左侧栏：个人简介 -->
+    <aside class="sidebar">
+        <div class="avatar">
+            <div class="avatar-circle">
+                <span>LYC</span>
+            </div>
+        </div>
+        <div class="name">Le Malin</div>
+        <div style="text-align: center;">
+            <span class="title"><i class="fas fa-code" style="margin-right: 6px;"></i> SJTU Undergraduate， Computer Science and Technology</span>
+        </div>
+        <div class="bio">
+            Le Malin是 是恶毒，空想级驱逐舰3号舰
+        </div>
+        <div class="info-item">
+            <i class="fas fa-map-marker-alt"></i> <span>中国 · 上海</span>
+        </div>
+        <div class="info-item">
+            <i class="fas fa-envelope"></i> <span>yuchen.lin@creativ.dev</span>
+        </div>
+        <div class="info-item">
+            <i class="fas fa-laptop-code"></i> <span>5年全栈开发 / 开源贡献者</span>
+        </div>
+        <div class="social-links">
+            <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" aria-label="个人博客"><i class="fas fa-blog"></i></a>
+        </div>
+    </aside>
+
+    <!-- 右侧主要区域：项目与文章 -->
+    <main class="main-content">
+        <div class="section-header">
+            <h2><i class="fas fa-pen-fancy" style="margin-right: 10px; color:#3b82f6;"></i> 项目与文章</h2>
+            <p>最新创作 · 持续更新</p>
+        </div>
+        <div class="cards-grid" id="cardsContainer">
+            <!-- 卡片将通过 JS 动态渲染，保证数据统一和交互流畅 -->
+        </div>
+        <div class="footer-note">
+            <i class="far fa-comment-dots"></i> 每一个项目都是探索的脚印 · 点击「阅读更多」获取完整内容
+        </div>
+    </main>
+</div>
+
+<!-- 模态框结构 -->
+<div id="detailModal" class="modal">
+    <div class="modal-content">
+        <button class="close-modal" id="closeModalBtn"><i class="fas fa-times"></i></button>
+        <div class="modal-title" id="modalTitle"></div>
+        <div class="modal-meta" id="modalMeta"></div>
+        <div class="modal-body" id="modalBody"></div>
     </div>
-  </aside>
+</div>
 
-  <!-- 右侧主要内容 -->
-  <main class="content">
-    <section class="projects">
-      <h2>Projects</h2>
-      <ul>
-        <li><a href="#">Project 1: A cool web app</a></li>
-        <li><a href="#">Project 2: Another great tool</a></li>
-        <li><a href="#">Project 3: Open-source contributions</a></li>
-      </ul>
-    </section>
+<script>
+    // 项目&文章数据 (包含标题、预览、详细内容、类别、日期)
+    const worksAndArticles = [
+        {
+            id: 1,
+            title: "设计系统构建实战",
+            type: "项目",
+            typeIcon: "fas fa-palette",
+            date: "2025-02-18",
+            preview: "探索如何从零开始构建设计系统，包括设计令牌、组件库和文档工具链。涵盖团队协作和版本管理策略，让产品体验保持高度一致性。",
+            contentDetail: `
+                <p>设计系统不仅是一堆可复用的UI组件，更是一套团队的工作语言。在这个项目中，我主导建立了基于React和Storybook的设计系统，包含颜色、字体、间距等设计令牌，并通过Chromatic进行视觉回归测试。</p>
+                <p>🔹 成果：组件复用率提升63%，设计与开发沟通成本降低40%。<br>
+                🔹 技术栈：React, TypeScript, Storybook, Styled-Components, Zod。<br>
+                🔹 开源部分组件已被多个内部产品采用，后续将整理设计原则文档供社区参考。</p>
+                <p>通过这套系统，我们实现了从零到一的快速产品迭代，并保证了跨页面的一致性，让设计与工程无缝衔接。</p>
+            `
+        },
+        {
+            id: 2,
+            title: "深入理解 Next.js App Router",
+            type: "文章",
+            typeIcon: "fas fa-globe",
+            date: "2025-01-10",
+            preview: "Next.js 13引入的App Router特性带来全新的开发模式，学习服务端组件和客户端组件、并行路由以及拦截路由的实践。",
+            contentDetail: `
+                <p>App Router 是 Next.js 近年最重要的架构革新。本文通过构建一个完整的博客平台案例，深度解析了 Server Components 和 Client Components 的边界，以及如何在保持 SSR 优势的同时实现细粒度缓存。</p>
+                <p>📘 亮点：<br>
+                - 理解文件约定与布局嵌套原理。<br>
+                - 结合 Suspense 实现流式渲染。<br>
+                - 并行路由在仪表盘场景的应用。<br>
+                最终项目的 Lighthouse 性能评分达到 98+，并分享了升级过程中的常见坑点。</p>
+                <p>文章同步发布于我的技术博客，获得了很多同行的积极反馈。</p>
+            `
+        },
+        {
+            id: 3,
+            title: "现代 CSS 布局指南：Grid + Flexbox 终极实战",
+            type: "文章",
+            typeIcon: "fas fa-css3-alt",
+            date: "2024-12-05",
+            preview: "使用Grid和Flexbox构建复杂的响应式布局，涵盖常见模式如圣杯布局、瀑布流、弹性卡片以及全屏滚动视差。",
+            contentDetail: `
+                <p>现代CSS已经强大到可以完成大部分曾经需要JS的布局效果。本文通过大量案例演示了Grid的隐式网格、minmax()与auto-fill的魔法，以及Flexbox如何优雅处理动态内容。</p>
+                <p>🎨 涵盖主题：<br>
+                - 自适应相册网格，无媒体查询实现响应式。<br>
+                - Flexbox 的 margin: auto 小技巧。<br>
+                - 容器查询实现组件级响应。<br>
+                附带完整代码片段和在线演示链接，让读者轻松上手现代布局黑科技。</p>
+            `
+        },
+        {
+            id: 4,
+            title: "Vue 3 组合式 API 深度解析与最佳实践",
+            type: "文章",
+            typeIcon: "fab fa-vuejs",
+            date: "2024-11-20",
+            preview: "Vue3组合式API相较于选项式API的优势，以及如何优雅地组织逻辑复用，构建高可维护性的大型应用。",
+            contentDetail: `
+                <p>组合式API让Vue的逻辑复用和类型推导变得前所未有的顺畅。本文基于真实项目经验，分享组合式函数的设计模式、响应式原理注意点，以及和Pinia状态管理的完美配合。</p>
+                <p>🚀 关键实践：<br>
+                - 抽离useFetch、useDarkMode等可组合函数。<br>
+                - 生命周期钩子在组合式中的映射。<br>
+                - 配合TypeScript获得极致开发体验。<br>
+                同时还给出了从Options API迁移的组合策略，帮助老项目平稳过渡。</p>
+            `
+        },
+        {
+            id: 5,
+            title: "个人博客搭建之旅：Astro + Tailwind + 极速部署",
+            type: "项目",
+            typeIcon: "fas fa-rocket",
+            date: "2024-10-12",
+            preview: "使用Astro构建高性能博客，集成Markdown和主题定制，部署到Vercel后实现毫秒级加载，完美适配SEO。",
+            contentDetail: `
+                <p>这个项目记录了从零开始搭建个人技术博客的全过程。Astro 的岛屿架构让页面几乎不包含任何多余JS，同时又能集成React/Vue组件用于交互。</p>
+                <p>✨ 特点：<br>
+                - 基于内容集合动态生成路由，支持标签与全文搜索。<br>
+                - 使用TailwindCSS实现自定义暗色模式。<br>
+                - 通过GitHub Actions自动部署，访问速度极佳。<br>
+                最终博客在移动端LCP低于0.8s，已成为个人技术输出的主要平台。</p>
+            `
+        },
+        {
+            id: 6,
+            title: "前端性能优化实战：从加载到渲染全链路",
+            type: "文章",
+            typeIcon: "fas fa-tachometer-alt",
+            date: "2024-09-08",
+            preview: "图片优化、代码拆分、懒加载、核心Web指标提升指南，结合Lighthouse与Web Vitals真实案例，让网站速度提升50%以上。",
+            contentDetail: `
+                <p>性能优化是前端工程化中至关重要的一环。本文从一个真实商业项目入手，通过分析打包产物、优化字体加载、实现图片懒加载与资源提示，将FCP从2.3s降低至1.1s。</p>
+                <p>📊 优化清单：<br>
+                - 使用动态导入与路由级代码分割。<br>
+                - 现代图片格式(webp/avif) 及响应式图片。<br>
+                - 关键CSS内联与剩余样式异步加载。<br>
+                最终该项目成功通过核心Web指标评估，用户体验获得显著提升。</p>
+            `
+        }
+    ];
 
-    <section class="articles">
-      <h2>Articles</h2>
-      <ul>
-        <li><a href="#">Article 1: Modern Web Development</a></li>
-        <li><a href="#">Article 2: Understanding CSS</a></li>
-        <li><a href="#">Article 3: A Guide to JavaScript</a></li>
-      </ul>
-    </section>
-  </main>
+    // 获取卡片容器
+    const cardsContainer = document.getElementById('cardsContainer');
+    // 模态框元素
+    const modal = document.getElementById('detailModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalMeta = document.getElementById('modalMeta');
+    const modalBody = document.getElementById('modalBody');
+    const closeModalBtn = document.getElementById('closeModalBtn');
 
-  <script src="script.js"></script>
+    // 辅助函数：格式化日期显示
+    function formatDate(dateStr) {
+        const date = new Date(dateStr);
+        return `${date.getFullYear()}.${date.getMonth()+1}.${date.getDate()}`;
+    }
+
+    // 渲染所有卡片
+    function renderCards() {
+        cardsContainer.innerHTML = '';
+        worksAndArticles.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            // 类型图标
+            const typeIconHtml = `<i class="${item.typeIcon}"></i>`;
+            const formattedDate = formatDate(item.date);
+            card.innerHTML = `
+                <div class="card-tag">
+                    ${typeIconHtml} <span>${item.type}</span>
+                </div>
+                <div class="card-title">${escapeHtml(item.title)}</div>
+                <div class="card-preview">${escapeHtml(item.preview)}</div>
+                <div class="card-meta">
+                    <div class="date-badge"><i class="far fa-calendar-alt"></i> ${formattedDate}</div>
+                    <button class="read-more-btn" data-id="${item.id}">阅读更多 <i class="fas fa-arrow-right"></i></button>
+                </div>
+            `;
+            cardsContainer.appendChild(card);
+        });
+
+        // 绑定所有阅读更多按钮事件
+        const allReadBtns = document.querySelectorAll('.read-more-btn');
+        allReadBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const id = parseInt(btn.getAttribute('data-id'));
+                const article = worksAndArticles.find(item => item.id === id);
+                if (article) {
+                    openModal(article);
+                }
+            });
+        });
+    }
+
+    // 简单的防XSS辅助 (内容安全，但内容本身安全，为严谨实现)
+    function escapeHtml(str) {
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
+            return c;
+        });
+    }
+
+    // 打开模态框，显示详细内容 (由于详细内容可能包含HTML标签，我们需要安全地渲染innerHTML，但内容本身由我们控制且安全)
+    function openModal(item) {
+        // 清空并设置内容
+        modalTitle.innerText = item.title;
+        const typeIcon = `<i class="${item.typeIcon}" style="margin-right: 6px;"></i>`;
+        const formattedDate = formatDate(item.date);
+        modalMeta.innerHTML = `${typeIcon} ${item.type} · <i class="far fa-calendar-alt"></i> ${formattedDate} · 预计阅读 5 分钟`;
+        // 详细内容可以使用innerHTML因为可信内容，但为了保持一致性，保留格式
+        modalBody.innerHTML = item.contentDetail;
+        // 显示模态框
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    // 关闭模态框
+    function closeModal() {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    // 点击模态框背景关闭
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            closeModal();
+        }
+    });
+
+    // ESC 键关闭
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
+            closeModal();
+        }
+    });
+
+    closeModalBtn.addEventListener('click', closeModal);
+
+    // 页面加载完毕后渲染卡片
+    window.addEventListener('DOMContentLoaded', () => {
+        renderCards();
+        // 额外添加卡片出现交错动画的平滑感 (CSS已带fadeSlideUp)
+        // 可增加渐进效果
+        const cards = document.querySelectorAll('.card');
+        cards.forEach((card, idx) => {
+            card.style.animation = `fadeSlideUp 0.4s ease-out ${idx * 0.05}s forwards`;
+            card.style.opacity = '0';
+            card.style.animationFillMode = 'forwards';
+        });
+    });
+</script>
 </body>
 </html>
