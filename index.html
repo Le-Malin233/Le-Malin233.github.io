@@ -606,30 +606,41 @@
         }
     ];
 
-    // 获取卡片容器
-    const cardsContainer = document.getElementById('cardsContainer');
-    // 模态框元素
-    const modal = document.getElementById('detailModal');
-    const modalTitle = document.getElementById('modalTitle');
-    const modalMeta = document.getElementById('modalMeta');
-    const modalBody = document.getElementById('modalBody');
-    const closeModalBtn = document.getElementById('closeModalBtn');
+     // 存储数据到 localStorage，供详情页使用
+    localStorage.setItem('articlesData', JSON.stringify(worksAndArticles));
 
-    // 辅助函数：格式化日期显示
+    // 辅助函数：格式化日期
     function formatDate(dateStr) {
         const date = new Date(dateStr);
         return `${date.getFullYear()}.${date.getMonth()+1}.${date.getDate()}`;
     }
 
-    // 渲染所有卡片
+    // 转义HTML
+    function escapeHtml(str) {
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+
+    // 渲染卡片 - 使用链接跳转
     function renderCards() {
+        const cardsContainer = document.getElementById('cardsContainer');
         cardsContainer.innerHTML = '';
+        
         worksAndArticles.forEach(item => {
+            const cardLink = document.createElement('a');
+            cardLink.href = `article.html?id=${item.id}`;
+            cardLink.className = 'card-link';
+            
             const card = document.createElement('div');
             card.className = 'card';
-            // 类型图标
+            
             const typeIconHtml = `<i class="${item.typeIcon}"></i>`;
             const formattedDate = formatDate(item.date);
+            
             card.innerHTML = `
                 <div class="card-tag">
                     ${typeIconHtml} <span>${item.type}</span>
@@ -638,79 +649,20 @@
                 <div class="card-preview">${escapeHtml(item.preview)}</div>
                 <div class="card-meta">
                     <div class="date-badge"><i class="far fa-calendar-alt"></i> ${formattedDate}</div>
-                    <button class="read-more-btn" data-id="${item.id}">阅读更多 <i class="fas fa-arrow-right"></i></button>
+                    <span class="read-more-link">阅读更多 <i class="fas fa-arrow-right"></i></span>
                 </div>
             `;
-            cardsContainer.appendChild(card);
-        });
-
-        // 绑定所有阅读更多按钮事件
-        const allReadBtns = document.querySelectorAll('.read-more-btn');
-        allReadBtns.forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const id = parseInt(btn.getAttribute('data-id'));
-                const article = worksAndArticles.find(item => item.id === id);
-                if (article) {
-                    openModal(article);
-                }
-            });
+            
+            cardLink.appendChild(card);
+            cardsContainer.appendChild(cardLink);
         });
     }
 
-    // 简单的防XSS辅助 (内容安全，但内容本身安全，为严谨实现)
-    function escapeHtml(str) {
-        return str.replace(/[&<>]/g, function(m) {
-            if (m === '&') return '&amp;';
-            if (m === '<') return '&lt;';
-            if (m === '>') return '&gt;';
-            return m;
-        }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
-            return c;
-        });
-    }
-
-    // 打开模态框，显示详细内容 (由于详细内容可能包含HTML标签，我们需要安全地渲染innerHTML，但内容本身由我们控制且安全)
-    function openModal(item) {
-        // 清空并设置内容
-        modalTitle.innerText = item.title;
-        const typeIcon = `<i class="${item.typeIcon}" style="margin-right: 6px;"></i>`;
-        const formattedDate = formatDate(item.date);
-        modalMeta.innerHTML = `${typeIcon} ${item.type} · <i class="far fa-calendar-alt"></i> ${formattedDate} · 预计阅读 5 分钟`;
-        // 详细内容可以使用innerHTML因为可信内容，但为了保持一致性，保留格式
-        modalBody.innerHTML = item.contentDetail;
-        // 显示模态框
-        modal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    }
-
-    // 关闭模态框
-    function closeModal() {
-        modal.classList.remove('active');
-        document.body.style.overflow = '';
-    }
-
-    // 点击模态框背景关闭
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) {
-            closeModal();
-        }
-    });
-
-    // ESC 键关闭
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && modal.classList.contains('active')) {
-            closeModal();
-        }
-    });
-
-    closeModalBtn.addEventListener('click', closeModal);
-
-    // 页面加载完毕后渲染卡片
+    // 页面加载完成后渲染
     window.addEventListener('DOMContentLoaded', () => {
         renderCards();
-        // 额外添加卡片出现交错动画的平滑感 (CSS已带fadeSlideUp)
-        // 可增加渐进效果
+        
+        // 添加卡片出现动画
         const cards = document.querySelectorAll('.card');
         cards.forEach((card, idx) => {
             card.style.animation = `fadeSlideUp 0.4s ease-out ${idx * 0.05}s forwards`;
