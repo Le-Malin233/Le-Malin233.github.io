@@ -1,4 +1,47 @@
 /* common.css - 个人主页公共样式 */
+:root {
+    /* 亮色主题变量 */
+    --bg-body: linear-gradient(145deg, #f8fafc 0%, #f1f5f9 100%);
+    --bg-card: #ffffff;
+    --bg-sidebar: rgba(255, 255, 255, 0.75);
+    --text-primary: #0f172a;
+    --text-secondary: #334155;
+    --text-muted: #5b6e8c;
+    --border-light: #e2e8f0;
+    --border-card: rgba(203, 213, 225, 0.4);
+    --tag-bg: #f1f5f9;
+    --tag-text: #2563eb;
+    --link-color: #3b82f6;
+    --info-item-bg: #f8fafc;
+    --code-bg: #f1f5f9;
+    --code-color: #dc2626;
+    --pre-bg: #1e293b;
+    --pre-color: #e2e8f0;
+    --shadow: 0 8px 20px -6px rgba(0, 0, 0, 0.05);
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        /* 深色主题变量 */
+        --bg-body: linear-gradient(145deg, #0f172a 0%, #1e293b 100%);
+        --bg-card: #1e293b;
+        --bg-sidebar: rgba(30, 41, 59, 0.75);
+        --text-primary: #f1f5f9;
+        --text-secondary: #cbd5e1;
+        --text-muted: #94a3b8;
+        --border-light: #334155;
+        --border-card: rgba(71, 85, 105, 0.4);
+        --tag-bg: #334155;
+        --tag-text: #60a5fa;
+        --link-color: #60a5fa;
+        --info-item-bg: #334155;
+        --code-bg: #334155;
+        --code-color: #f87171;
+        --pre-bg: #0f172a;
+        --pre-color: #e2e8f0;
+        --shadow: 0 8px 20px -6px rgba(0, 0, 0, 0.3);
+    }
+}
 * {
     margin: 0;
     padding: 0;
