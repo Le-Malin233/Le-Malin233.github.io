@@ -479,6 +479,22 @@ body {
     flex-wrap: wrap;
 }
 
+@media (max-width: 850px) {
+    .pagination {
+        gap: 0.3rem;
+    }
+    .pagination .page-btn {
+        width: 28px;
+        height: 28px;
+        font-size: 0.75rem;
+    }
+    .pagination .nav-btn,
+    .pagination .first-btn,
+    .pagination .last-btn {
+        font-size: 0.8rem;
+        padding: 0 0.2rem;
+    }
+}
 /* 通用按钮样式（首尾、上一页、下一页） */
 .pagination .nav-btn,
 .pagination .first-btn,
