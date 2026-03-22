@@ -50,6 +50,16 @@ body {
     box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.02);
     transition: transform 0.25s ease, box-shadow 0.3s ease;
     border: 1px solid rgba(255, 255, 255, 0.6);
+    position: sticky;
+    top: 2rem;
+}
+@media (max-width: 850px) {
+    .sidebar {
+        position: static;      /* 恢复普通文档流 */
+        top: auto;             /* 清除 top 值 */
+        align-self: auto;      /* 清除网格对齐 */
+        margin-bottom: 1rem;   /* 可选：增加与内容的间距 */
+    }
 }
 .sidebar:hover {
     box-shadow: 0 25px 40px -16px rgba(0, 0, 0, 0.1);
@@ -158,8 +168,8 @@ body {
 
 /* ========= 右侧卡片区域 ========= */
 .main-content {
-    animation: fadeSlideUp 0.5s ease-out;
-    transition: height 1.5s ease-out;  /* 新增高度过渡 */
+    animation: fadeSlideUp 0.8s ease-out;
+    transition: height 0.6s ease-out;  /* 新增高度过渡 */
 }
 .section-header {
     display: flex;
