@@ -401,9 +401,9 @@ body {
     background: #f1f5f9;
     padding: 0.2rem 0.4rem;
     border-radius: 6px;
-    font-family: 'Courier New', monospace;
+    font-family: 'Consolas', monospace;
     font-size: 0.9em;
-    color: #dc2626;
+    color: #000000;
 }
 .article-body pre {
     background: #1e293b;
