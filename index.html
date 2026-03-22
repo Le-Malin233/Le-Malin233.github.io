@@ -1,70 +1,68 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Index Page</title>
-    <link rel="stylesheet" href="styles.css">
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f0f4ff;
-            color: #333;
-            transition: background-color 0.3s ease;
-            overflow-x: hidden;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        h1 {
-            color: #1a73e8;
-            animation: fade-in 1s ease forwards;
-        }
-        @keyframes fade-in {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        .half-circle {
-            width: 200px;
-            height: 100px;
-            background: #1a73e8;
-            border-radius: 100px 100px 0 0;
-            position: relative;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-        .transition {
-            display: none;
-        }
-        .slide {
-            transform: translateY(-50px);
-            animation: slide-in 0.5s forwards;
-        }
-        @keyframes slide-in {
-            from { transform: translateY(-50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-        @media (max-width: 600px) {
-            .container {
-                padding: 10px;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>我的个人主页</title>
+<style>
+:root {
+ --bg: #f8f9fa; --text: #2c3e50; --card: #fff; --accent: #ff6b6b;
+}
+@media (prefers-color-scheme: dark) {
+ :root { --bg: #121212; --text: #e0e0e0; --card: #1e1e1e; }
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+ font-family: "Segoe UI", Arial, sans-serif;
+ background: var(--bg); color: var(--text);
+ display:flex; align-items:center; justify-content:center;
+ min-height:100vh; padding:20px;
+}
+card {
+ background: var(--card); max-width:420px; width:100%;
+ border-radius:20px; overflow:hidden;
+ box-shadow:0 15px 35px rgba(0,0,0,0.1);
+ text-align:center; transition:.3s;
+}
+card:hover { transform: translateY(-10px); }
+avatar {
+ width:120px; height:120px; border-radius:50%;
+ margin:30px auto 10px; object-fit:cover;
+ border:5px solid var(--accent);
+}
+h1 { font-size:28px; margin:10px 0; color:var(--accent); }
+tagline { color:#888; font-size:16px; margin-bottom:20px; }
+bio { padding:0 30px; margin-bottom:25px; font-size:15px; }
+links {
+ display:flex; flex-wrap:wrap; justify-content:center;
+ gap:12px; padding:0 20px 30px;
+}
+links a {
+ display:flex; align-items:center; gap:8px;
+ padding:10px 20px; background:var(--accent); color:white;
+ text-decoration:none; border-radius:50px;
+ font-size:14px; transition:.3s;
+}
+links a:hover {
+ transform:scale(1.08);
+ box-shadow:0 5px 15px rgba(255,107,107,0.4);
+}
+footer { margin-top:40px; font-size:14px; color:#aaa; }
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
-    <div class="half-circle"></div>
-    <div class="container">
-        <h1>Welcome to Le Malin</h1>
-        <p class="slide">This is a modern and responsive design with animations.</p>
-    </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            document.querySelector('.slide').style.display = 'block';
-        });
-    </script>
+<div class="card">
+ <img src="avatar.jpg" alt="头像" class="avatar">
+ <h1>你的名字</h1>
+ <p class="tagline">一句话介绍自己</p>
+ <div class="bio">这里写自我介绍，可以包含兴趣、职业等。</div>
+ <div class="links">
+   <a href="#"><i class="fab fa-github"></i>GitHub</a>
+   <a href="#"><i class="fas fa-envelope"></i>邮箱</a>
+   <a href="#"><i class="fas fa-blog"></i>博客</a>
+ </div>
+</div>
+<footer>©2025 我的个人主页</footer>
 </body>
 </html>
