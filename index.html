@@ -3,53 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="A beautiful personal homepage">
-    <title>Le Malin - Personal Homepage</title>
+    <title>Index Page</title>
+    <link rel="stylesheet" href="styles.css">
     <style>
         body {
-            font-family: Arial, sans-serif;
             margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
+            font-family: Arial, sans-serif;
+            background-color: #f0f4ff;
             color: #333;
-        }
-        header {
-            background: #35424a;
-            color: #ffffff;
-            padding: 10px 0;
-            text-align: center;
+            transition: background-color 0.3s ease;
+            overflow-x: hidden;
         }
         .container {
-            width: 80%;
-            margin: auto;
-            overflow: hidden;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
         }
-        footer {
-            background: #35424a;
-            color: #ffffff;
-            text-align: center;
-            padding: 10px 0;
+        h1 {
+            color: #1a73e8;
+            animation: fade-in 1s ease forwards;
+        }
+        @keyframes fade-in {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .half-circle {
+            width: 200px;
+            height: 100px;
+            background: #1a73e8;
+            border-radius: 100px 100px 0 0;
             position: relative;
-            bottom: 0;
-            width: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .transition {
+            display: none;
+        }
+        .slide {
+            transform: translateY(-50px);
+            animation: slide-in 0.5s forwards;
+        }
+        @keyframes slide-in {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 10px;
+            }
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Welcome to Le Malin's Homepage</h1>
-        <p>Your one-stop destination for all things about me!</p>
-    </header>
+    <div class="half-circle"></div>
     <div class="container">
-        <h2>About Me</h2>
-        <p>I'm an aspiring web developer with a passion for creating beautiful and functional websites.</p>
-        <h2>Projects</h2>
-        <p>Check out some of my projects on GitHub.</p>
-        <h2>Contact</h2>
-        <p>Feel free to reach out via my <a href="mailto:example@example.com">email</a>.</p>
+        <h1>Welcome to Le Malin</h1>
+        <p class="slide">This is a modern and responsive design with animations.</p>
     </div>
-    <footer>
-        <p>&copy; 2026 Le Malin233</p>
-    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelector('.slide').style.display = 'block';
+        });
+    </script>
 </body>
 </html>
