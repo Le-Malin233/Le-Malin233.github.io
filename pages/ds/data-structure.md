@@ -1,4 +1,3 @@
-const DEFAULT_MARKDOWN = `
 在大三选择重修两年前这门课，希望通过两年来的学习对这门课程有更深刻的见解。本文将持续更新这一学期学习过程中的思考与感悟。
 
 ## 2026.3.22
@@ -96,8 +95,3 @@ const DEFAULT_MARKDOWN = `
 ## 第五页
 
 ...
-`;
-
-if (typeof window !== 'undefined') {
-    window.DEFAULT_MARKDOWN = DEFAULT_MARKDOWN;
-}

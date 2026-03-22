@@ -1,5 +1,5 @@
-// pagination.js - 纯渲染模式（支持分页，从 window.DEFAULT_MARKDOWN 读取内容）
-document.addEventListener('DOMContentLoaded', () => {
+// pagination.js - 支持从外部 .md 文件加载并分页
+document.addEventListener('DOMContentLoaded', async () => {
     const paginationDiv = document.getElementById('pagination');
     const mainContent = document.querySelector('.main-content');
     const articleBody = document.getElementById('articleBody');
@@ -9,14 +9,38 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    if (typeof window === 'undefined' || !window.DEFAULT_MARKDOWN) {
-        console.error('未找到 window.DEFAULT_MARKDOWN，请在页面中引入定义该变量的 JS 文件');
+    // 获取要加载的 .md 文件路径（优先从 URL 参数 md= 获取）
+    const urlParams = new URLSearchParams(window.location.search);
+    let mdFilePath = urlParams.get('md');
+    if (!mdFilePath) {
+        // 如果没有提供，使用默认路径（可根据页面名称自动推断，或使用固定默认值）
+        // 例如：根据当前页面文件名推断 data-structure.html -> data-structure.md
+        const pageName = window.location.pathname.split('/').pop().replace('.html', '');
+        mdFilePath = `${pageName}.md`;
+        console.log(`未指定 md 参数，使用默认路径: ${mdFilePath}`);
+    }
+
+    let markdownContent = null;
+
+    try {
+        const response = await fetch(mdFilePath);
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+        markdownContent = await response.text();
+    } catch (error) {
+        console.error('加载 Markdown 文件失败:', error);
+        articleBody.innerHTML = `<p style="color: red;">无法加载内容：${error.message}</p>`;
         return;
     }
 
-    let pages = [];
+    // 解析分页
+    const rawPages = markdownContent.split(/<!--\s*pagebreak\s*-->/);
+    let pages = rawPages.map(pageMd => marked.parse(pageMd.trim()));
+    const totalPages = pages.length;
+    if (totalPages === 0) pages = ['<p>暂无内容</p>'];
+
     let currentPage = 1;
-    let totalPages = 0;
     let isAnimating = false;
 
     function getPageHeight(pageIndex) {
@@ -130,15 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
         paginationDiv.appendChild(lastBtn);
     }
 
-    function renderMarkdown() {
-        const md = window.DEFAULT_MARKDOWN;
-        const rawPages = md.split(/<!--\s*pagebreak\s*-->/);
-        pages = rawPages.map(pageMd => marked.parse(pageMd.trim()));
-        totalPages = pages.length;
-        if (totalPages === 0) pages = ['<p>暂无内容</p>'];
-        updatePageDisplay();
-        renderPaginationControls();
-    }
-
-    renderMarkdown();
+    // 初始渲染
+    updatePageDisplay();
+    renderPaginationControls();
 });
