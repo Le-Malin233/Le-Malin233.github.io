@@ -1,4 +1,4 @@
-// pagination.js - 支持从外部 .md 文件加载并分页，翻页时自动滚动到顶部
+// pagination.js - 支持从外部 .md 文件加载并分页，使用淡入淡出切换
 document.addEventListener('DOMContentLoaded', async () => {
     const paginationDiv = document.getElementById('pagination');
     const mainContent = document.querySelector('.main-content');
@@ -9,33 +9,27 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
     }
 
-    // 获取要加载的 .md 文件路径（优先从 URL 参数 md= 获取）
+    // 获取 .md 文件路径
     const urlParams = new URLSearchParams(window.location.search);
     let mdFilePath = urlParams.get('md');
     if (!mdFilePath) {
         const pageName = window.location.pathname.split('/').pop().replace('.html', '');
         mdFilePath = `${pageName}.md`;
-        console.log(`未指定 md 参数，使用默认路径: ${mdFilePath}`);
     }
 
     let markdownContent = null;
     try {
         const response = await fetch(mdFilePath);
-        if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
         markdownContent = await response.text();
 
-        // --- 更新最后修改时间 ---
+        // 更新最后修改时间
         const lastModified = response.headers.get('Last-Modified');
         if (lastModified) {
             const date = new Date(lastModified);
-            const year = date.getFullYear();
-            const month = date.getMonth() + 1;
-            const day = date.getDate();
-            const formattedDate = `${year}.${month}.${day}`;
+            const formattedDate = `${date.getFullYear()}.${date.getMonth()+1}.${date.getDate()}`;
             const timeSpan = document.getElementById('article-update-time');
-            if (timeSpan) {
-                timeSpan.innerHTML = `<i class="far fa-clock"></i> ${formattedDate}`;
-            }
+            if (timeSpan) timeSpan.innerHTML = `<i class="far fa-clock"></i> ${formattedDate}`;
         }
     } catch (error) {
         console.error('加载 Markdown 文件失败:', error);
@@ -50,50 +44,35 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (totalPages === 0) pages = ['<p>暂无内容</p>'];
 
     let currentPage = 1;
-    let isAnimating = false;
-
-    function getPageHeight(pageIndex) {
-        const tempDiv = document.createElement('div');
-        tempDiv.style.position = 'absolute';
-        tempDiv.style.visibility = 'hidden';
-        tempDiv.style.top = '-9999px';
-        tempDiv.innerHTML = pages[pageIndex - 1];
-        document.body.appendChild(tempDiv);
-        const height = tempDiv.offsetHeight;
-        document.body.removeChild(tempDiv);
-        return height;
-    }
-
-    function animateHeightTo(targetHeight) {
-        if (isAnimating) return;
-        const currentHeight = mainContent.offsetHeight;
-        if (currentHeight === targetHeight) return;
-        isAnimating = true;
-        mainContent.style.height = currentHeight + 'px';
-        void mainContent.offsetHeight;
-        mainContent.style.height = targetHeight + 'px';
-        const onTransitionEnd = () => {
-            mainContent.style.height = '';
-            mainContent.removeEventListener('transitionend', onTransitionEnd);
-            isAnimating = false;
-        };
-        mainContent.addEventListener('transitionend', onTransitionEnd, { once: true });
-    }
+    let isAnimating = false; // 防止动画冲突
 
     function scrollToTop() {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function updatePageDisplay() {
-        if (!articleBody) return;
-        if (pages[currentPage - 1]) {
-            const nextHeight = getPageHeight(currentPage);
-            animateHeightTo(nextHeight);
+        if (!articleBody || !pages[currentPage - 1]) return;
+        if (isAnimating) return; // 动画中不允许新操作
+
+        isAnimating = true;
+
+        // 淡出当前内容
+        articleBody.classList.add('fade-out');
+
+        // 等待淡出动画完成（200ms）
+        setTimeout(() => {
+            // 更新内容
+            articleBody.innerHTML = pages[currentPage - 1];
+            // 滚动到顶部
+            scrollToTop();
+            // 淡入
+            articleBody.classList.remove('fade-out');
+
+            // 动画结束
             setTimeout(() => {
-                articleBody.innerHTML = pages[currentPage - 1];
-                scrollToTop(); // 翻页后滚动到页面顶部
-            }, 0);
-        }
+                isAnimating = false;
+            }, 200); // 等待淡入动画完成
+        }, 200);
     }
 
     function renderPaginationControls() {
@@ -109,7 +88,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             btn.className = 'nav-btn';
             btn.innerHTML = html;
             if (!enabled) btn.classList.add('disabled');
-            btn.addEventListener('click', clickHandler);
+            btn.addEventListener('click', () => {
+                if (isAnimating) return; // 动画中禁用点击
+                clickHandler();
+            });
             return btn;
         };
 
@@ -140,6 +122,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (i === currentPage) pageBtn.classList.add('active');
             pageBtn.textContent = i;
             pageBtn.addEventListener('click', () => {
+                if (isAnimating) return;
                 if (i !== currentPage) {
                     currentPage = i;
                     updatePageDisplay();
