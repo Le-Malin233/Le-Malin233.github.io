@@ -1,4 +1,4 @@
-// pagination.js - 支持从外部 .md 文件加载并分页
+// pagination.js - 支持从外部 .md 文件加载并分页，翻页时自动滚动到顶部
 document.addEventListener('DOMContentLoaded', async () => {
     const paginationDiv = document.getElementById('pagination');
     const mainContent = document.querySelector('.main-content');
@@ -13,36 +13,36 @@ document.addEventListener('DOMContentLoaded', async () => {
     const urlParams = new URLSearchParams(window.location.search);
     let mdFilePath = urlParams.get('md');
     if (!mdFilePath) {
-        // 如果没有提供，使用默认路径（可根据页面名称自动推断，或使用固定默认值）
-        // 例如：根据当前页面文件名推断 data-structure.html -> data-structure.md
         const pageName = window.location.pathname.split('/').pop().replace('.html', '');
         mdFilePath = `${pageName}.md`;
         console.log(`未指定 md 参数，使用默认路径: ${mdFilePath}`);
     }
 
     let markdownContent = null;
-try {
-    const response = await fetch(mdFilePath);
-    if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-    markdownContent = await response.text();
+    try {
+        const response = await fetch(mdFilePath);
+        if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        markdownContent = await response.text();
 
-    // --- 更新最后修改时间 ---
-    const lastModified = response.headers.get('Last-Modified');
-    if (lastModified) {
-        const date = new Date(lastModified);
-        const year = date.getFullYear();
-        const month = date.getMonth() + 1;
-        const day = date.getDate();
-        const formattedDate = `${year}.${month}.${day}`;
-        const timeSpan = document.getElementById('article-update-time');
-        if (timeSpan) {
-            timeSpan.innerHTML = `<i class="far fa-clock"></i> ${formattedDate}`;
+        // --- 更新最后修改时间 ---
+        const lastModified = response.headers.get('Last-Modified');
+        if (lastModified) {
+            const date = new Date(lastModified);
+            const year = date.getFullYear();
+            const month = date.getMonth() + 1;
+            const day = date.getDate();
+            const formattedDate = `${year}.${month}.${day}`;
+            const timeSpan = document.getElementById('article-update-time');
+            if (timeSpan) {
+                timeSpan.innerHTML = `<i class="far fa-clock"></i> ${formattedDate}`;
+            }
         }
+    } catch (error) {
+        console.error('加载 Markdown 文件失败:', error);
+        articleBody.innerHTML = `<p style="color: red;">无法加载内容：${error.message}</p>`;
+        return;
     }
-} catch (error) {
-    // ...
-}
-    
+
     // 解析分页
     const rawPages = markdownContent.split(/<!--\s*pagebreak\s*-->/);
     let pages = rawPages.map(pageMd => marked.parse(pageMd.trim()));
@@ -80,6 +80,10 @@ try {
         mainContent.addEventListener('transitionend', onTransitionEnd, { once: true });
     }
 
+    function scrollToTop() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
     function updatePageDisplay() {
         if (!articleBody) return;
         if (pages[currentPage - 1]) {
@@ -87,6 +91,7 @@ try {
             animateHeightTo(nextHeight);
             setTimeout(() => {
                 articleBody.innerHTML = pages[currentPage - 1];
+                scrollToTop(); // 翻页后滚动到页面顶部
             }, 0);
         }
     }
