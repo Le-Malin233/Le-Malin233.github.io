@@ -1,4 +1,4 @@
-// pagination.js - 支持从外部 .md 文件加载并分页，使用淡入淡出切换
+// pagination.js - 支持从外部 .md 文件加载并分页，使用淡入淡出切换，瞬间滚动到顶部
 document.addEventListener('DOMContentLoaded', async () => {
     const paginationDiv = document.getElementById('pagination');
     const mainContent = document.querySelector('.main-content');
@@ -44,34 +44,33 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (totalPages === 0) pages = ['<p>暂无内容</p>'];
 
     let currentPage = 1;
-    let isAnimating = false; // 防止动画冲突
+    let isAnimating = false;
 
     function scrollToTop() {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.scrollTo({ top: 0, behavior: 'instant' });
     }
 
     function updatePageDisplay() {
         if (!articleBody || !pages[currentPage - 1]) return;
-        if (isAnimating) return; // 动画中不允许新操作
+        if (isAnimating) return;
 
         isAnimating = true;
+
+        // 先瞬间滚动到顶部
+        scrollToTop();
 
         // 淡出当前内容
         articleBody.classList.add('fade-out');
 
-        // 等待淡出动画完成（200ms）
         setTimeout(() => {
             // 更新内容
             articleBody.innerHTML = pages[currentPage - 1];
-            // 滚动到顶部
-            scrollToTop();
             // 淡入
             articleBody.classList.remove('fade-out');
 
-            // 动画结束
             setTimeout(() => {
                 isAnimating = false;
-            }, 200); // 等待淡入动画完成
+            }, 200);
         }, 200);
     }
 
@@ -89,7 +88,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             btn.innerHTML = html;
             if (!enabled) btn.classList.add('disabled');
             btn.addEventListener('click', () => {
-                if (isAnimating) return; // 动画中禁用点击
+                if (isAnimating) return;
                 clickHandler();
             });
             return btn;
