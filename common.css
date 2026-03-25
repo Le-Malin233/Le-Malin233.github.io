@@ -645,7 +645,7 @@ th {
 /* 移动端确保图片不溢出 */
 @media (max-width: 850px) {
     .article-body img {
-        max-width: 100%;
+        max-width: 80%;
         width: auto;           /* 防止强制填满导致的变形 */
         margin-left: auto;
         margin-right: auto;
