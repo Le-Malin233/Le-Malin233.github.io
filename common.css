@@ -427,7 +427,46 @@ body {
     max-width: 100%;
     overflow-x: auto;
     white-space: pre;   /* 保持代码格式 */
+    position: relative;
+    overflow-y: hidden;
+
+    /* 关键：滚动更顺滑 */
+    scroll-behavior: smooth;
+
+    /* 防止滚动条占空间（现代浏览器） */
+    scrollbar-gutter: stable both-edges;
 }
+
+/* 默认隐藏 */
+.article-body pre::-webkit-scrollbar {
+    height: 6px;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+
+/* 滑块轨道 */
+.article-body pre::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* 滑块 */
+.article-body pre::-webkit-scrollbar-thumb {
+    background: rgba(148, 163, 184, 0.35); /* 低对比 */
+    border-radius: 999px;
+    transition: background 0.2s ease;
+}
+
+/* hover 或滚动时显示 */
+.article-body pre:hover::-webkit-scrollbar,
+.article-body pre.scrolling::-webkit-scrollbar {
+    opacity: 1;
+}
+
+/* hover 时增强 */
+.article-body pre:hover::-webkit-scrollbar-thumb {
+    background: rgba(100, 116, 139, 0.6);
+}
+
 
 /* 代码块内的 code 重置 */
 .article-body pre code {

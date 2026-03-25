@@ -233,6 +233,23 @@ document.addEventListener('DOMContentLoaded', async () => {
         paginationDiv.appendChild(lastBtn);
     }
 
+    const pres = document.querySelectorAll('.article-body pre');
+    pres.forEach(pre => {
+        let timer;
+
+        const showScrollbar = () => {
+            pre.classList.add('scrolling');
+
+            clearTimeout(timer);
+            timer = setTimeout(() => {
+                pre.classList.remove('scrolling');
+            }, 900); // 停止后 0.9s 消失
+        };
+
+        pre.addEventListener('scroll', showScrollbar);
+        pre.addEventListener('mouseenter', showScrollbar);
+    });
+
     // 初始渲染
     updatePageDisplay();
     renderPaginationControls();
