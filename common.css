@@ -651,3 +651,195 @@ th {
         margin-right: auto;
     }
 }
+
+/* ========== 夜间模式（跟随系统） ========== */
+@media (prefers-color-scheme: dark) {
+    body {
+        background: linear-gradient(145deg, #0f172a 0%, #1e293b 100%);
+        color: #e2e8f0;
+    }
+
+    /* 滚动条暗色 */
+    ::-webkit-scrollbar-track {
+        background: #1e293b;
+    }
+    ::-webkit-scrollbar-thumb {
+        background: #475569;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        background: #64748b;
+    }
+
+    /* 左侧栏 */
+    .sidebar {
+        background: rgba(15, 23, 42, 0.8);
+        backdrop-filter: blur(2px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.3);
+    }
+    .sidebar:hover {
+        box-shadow: 0 25px 40px -16px rgba(0, 0, 0, 0.4);
+    }
+
+    .name {
+        background: linear-gradient(120deg, #e2e8f0, #94a3b8);
+        background-clip: text;
+        -webkit-background-clip: text;
+    }
+    .title {
+        background: #1e293b;
+        color: #60a5fa;
+    }
+    .bio {
+        color: #cbd5e1;
+    }
+    .info-item {
+        background: #1e293b;
+        color: #e2e8f0;
+    }
+    .info-item i {
+        color: #60a5fa;
+    }
+    .info-item:hover {
+        background: #2d3a5e;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    }
+    .social-links a {
+        color: #94a3b8;
+    }
+    .social-links a:hover {
+        color: #60a5fa;
+    }
+
+    /* 右侧卡片区域 */
+    .section-header h2 {
+        background: linear-gradient(135deg, #e2e8f0, #94a3b8);
+        background-clip: text;
+        -webkit-background-clip: text;
+    }
+    .section-header p {
+        color: #94a3b8;
+    }
+
+    .card {
+        background: #1e293b;
+        border: 1px solid #334155;
+        box-shadow: 0 8px 20px -6px rgba(0, 0, 0, 0.3);
+    }
+    .card:hover {
+        border-color: #60a5fa;
+        box-shadow: 0 24px 36px -12px rgba(0, 0, 0, 0.4);
+    }
+    .card-tag {
+        background: #2d3a5e;
+        color: #93c5fd;
+    }
+    .card-title {
+        color: #f1f5f9;
+    }
+    .card-preview {
+        color: #cbd5e1;
+    }
+    .card-meta {
+        color: #94a3b8;
+        border-top-color: #334155;
+    }
+    .read-more-link {
+        background: #2d3a5e;
+        color: #60a5fa;
+    }
+    .read-more-link:hover {
+        background: #60a5fa;
+        color: #0f172a;
+    }
+
+    /* 文章详情页 */
+    .article-content {
+        background: #1e293b;
+        border: 1px solid #334155;
+        box-shadow: 0 8px 20px -6px rgba(0, 0, 0, 0.3);
+    }
+    .back-home {
+        background: #2d3a5e;
+        color: #60a5fa;
+    }
+    .back-home:hover {
+        background: #60a5fa;
+        color: #0f172a;
+    }
+    .article-title {
+        background: linear-gradient(135deg, #e2e8f0, #94a3b8);
+        background-clip: text;
+        -webkit-background-clip: text;
+    }
+    .article-meta {
+        color: #94a3b8;
+        border-bottom-color: #334155;
+    }
+    .article-body {
+        color: #e2e8f0;
+    }
+    .article-body blockquote {
+        border-left-color: #60a5fa;
+        color: #cbd5e1;
+    }
+    /* 行内代码 */
+    .article-body code {
+        background: #0f172a;
+        color: #f87171;
+        border-color: #334155;
+    }
+    /* 代码块 */
+    .article-body pre {
+        background: #0f172a;
+        border-color: #334155;
+        color: #e2e8f0;
+    }
+    /* 表格 */
+    table {
+        border-color: #334155;
+    }
+    th, td {
+        border-color: #334155;
+    }
+    th {
+        background-color: #2d3a5e;
+        color: #e2e8f0;
+    }
+    td {
+        background-color: #1e293b;
+        color: #e2e8f0;
+    }
+
+    /* 页脚 */
+    .footer-note {
+        color: #94a3b8;
+        border-top-color: #334155;
+    }
+
+    /* 分页控件 */
+    .pagination .nav-btn,
+    .pagination .first-btn,
+    .pagination .last-btn {
+        color: #94a3b8;
+    }
+    .pagination .nav-btn:hover,
+    .pagination .first-btn:hover,
+    .pagination .last-btn:hover {
+        color: #60a5fa;
+    }
+    .pagination .page-btn {
+        background: #1e293b;
+        border-color: #334155;
+        color: #e2e8f0;
+    }
+    .pagination .page-btn:hover:not(.active) {
+        background: #2d3a5e;
+        border-color: #475569;
+    }
+    .pagination .page-btn.active {
+        background: #60a5fa;
+        border-color: #60a5fa;
+        color: #0f172a;
+    }
+}
