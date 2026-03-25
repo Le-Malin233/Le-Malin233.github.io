@@ -625,3 +625,11 @@ th {
     white-space: nowrap;
     padding: 0 0.1em;
 }
+
+.article-body img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 1rem auto;
+    border-radius: 8px;   /* 可选：增加圆角 */
+}
