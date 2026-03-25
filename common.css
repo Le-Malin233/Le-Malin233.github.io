@@ -642,13 +642,31 @@ th {
     word-wrap: break-word;
 }
 
-/* 移动端确保图片不溢出 */
 @media (max-width: 850px) {
+    .container {
+        width: 100%;
+        overflow-x: hidden;        /* 防止整个页面横向滚动 */
+        padding: 1rem;             /* 保持内容与屏幕边缘有间距 */
+        box-sizing: border-box;
+    }
+    .article-content {
+        width: 100%;
+        overflow-x: hidden;
+        padding: 1rem;             /* 根据需要调整内边距 */
+        box-sizing: border-box;
+    }
+    .article-body {
+        width: 100%;
+        overflow-x: hidden;
+        word-wrap: break-word;
+    }
     .article-body img {
-        max-width: 80%;
-        width: auto;           /* 防止强制填满导致的变形 */
-        margin-left: auto;
-        margin-right: auto;
+        width: 100%;               /* 强制图片宽度等于父容器内容区宽度 */
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin: 1rem 0;            /* 移除左右外边距，避免溢出 */
+        box-sizing: border-box;
     }
 }
 
