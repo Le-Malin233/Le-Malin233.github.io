@@ -186,6 +186,7 @@ body {
 .main-content {
     animation: fadeSlideUp 0.8s ease-out;
     transition: height 0.6s ease-out;  /* 新增高度过渡 */
+    min-width: 0;
 }
 .section-header {
     display: flex;
@@ -423,6 +424,9 @@ body {
     line-height: 1.5;
     border: 1px solid #30363d;
     box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    max-width: 100%;
+    overflow-x: auto;
+    white-space: pre;   /* 保持代码格式 */
 }
 
 /* 代码块内的 code 重置 */
@@ -645,28 +649,30 @@ th {
 @media (max-width: 850px) {
     .container {
         width: 100%;
-        overflow-x: hidden;        /* 防止整个页面横向滚动 */
-        padding: 1rem;             /* 保持内容与屏幕边缘有间距 */
+        padding: 1rem;
         box-sizing: border-box;
-    }
-    .article-content {
-        width: 100%;
         overflow-x: hidden;
-        padding: 1rem;             /* 根据需要调整内边距 */
-        box-sizing: border-box;
     }
+
+    .article-content,
     .article-body {
         width: 100%;
+        box-sizing: border-box;
+        min-width: 0;              /* ⭐关键：允许收缩 */
         overflow-x: hidden;
-        word-wrap: break-word;
     }
+
+    .article-body {
+        overflow-wrap: break-word; /* ⭐替代 word-wrap */
+        word-break: break-word;
+    }
+
     .article-body img {
-        width: 100%;               /* 强制图片宽度等于父容器内容区宽度 */
+        display: block;
+        width: 100%;
         max-width: 100%;
         height: auto;
-        display: block;
-        margin: 1rem 0;            /* 移除左右外边距，避免溢出 */
-        box-sizing: border-box;
+        margin: 1rem 0;
     }
 }
 
