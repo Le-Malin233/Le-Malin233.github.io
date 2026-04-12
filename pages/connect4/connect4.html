@@ -8,22 +8,18 @@
     <link rel="stylesheet" href="/common.css">
     <link rel="icon" href="/images/favicon.svg" type="image/svg">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- 引入 marked 和 KaTeX -->
+    <!-- 引入 marked 和 KaTeX（可选，但保留原风格） -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
     <style>
-        /* ========== 仅保留游戏特有的样式，不覆盖 common.css 的全局设计 ========== */
-        /* 游戏卡片容器微调（确保与 common.css 卡片风格融合，但不重复定义） */
+        /* ========== 游戏特有样式（不冲突 common.css） ========== */
         .game-card {
-            /* 利用 common.css 中的 .card 或 .game-card 如果不存在则补充基础 */
-            /* 这里只补充游戏内特有间距，背景等沿用 common.css 的卡片风格 */
-            max-width: 700px;
             margin: 0 auto;
             width: 100%;
+            max-width: 700px;      /* 限制最大宽度，保证大屏幕下不拉伸过宽 */
         }
 
-        /* 棋盘包装器 */
         .board-wrapper {
             display: flex;
             justify-content: center;
@@ -40,14 +36,13 @@
             height: auto;
             max-width: 560px;
             aspect-ratio: 7 / 6;
-            background-color: #f8fafc; /* 浅色默认背景，深色模式下由 JS 动态适应或 CSS 变量控制 */
+            background-color: #f8fafc;
         }
         canvas.waiting {
             cursor: wait;
             filter: brightness(0.96);
         }
 
-        /* 信息栏复用 common.css 的 info-panel 风格，但确保内部元素间距 */
         .info-panel {
             display: flex;
             justify-content: space-between;
@@ -57,7 +52,6 @@
             flex-wrap: wrap;
         }
 
-        /* 状态栏样式（与 common.css 中的 status-box 可能不同，这里独立保留） */
         .status-box {
             background: #f8fafc;
             padding: 0.6rem 1.2rem;
@@ -72,7 +66,6 @@
             border: 1px solid #e2e8f0;
         }
 
-        /* 重置按钮样式增强（保持与 common.css 中的按钮类兼容，如 .reset-btn 在 common.css 中未定义则补充） */
         .reset-btn {
             background: #eff6ff;
             border: none;
@@ -100,7 +93,6 @@
             transform: translateY(1px);
         }
 
-        /* 页脚说明 */
         .footer-note {
             text-align: center;
             margin-top: 1.8rem;
@@ -110,7 +102,7 @@
             padding-top: 1.2rem;
         }
 
-        /* 深色模式适配（覆盖 canvas 背景，仅当系统深色时，JS 也会动态处理，但 CSS 备用） */
+        /* 深色模式适配 */
         @media (prefers-color-scheme: dark) {
             canvas {
                 background-color: #1e293b;
@@ -163,37 +155,39 @@
             <a href="https://www.jetphotos.com/photographer/520278" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-camera"></i></a>
         </div>
     </aside>
+
+    <!-- 右侧主内容区：移除多余的嵌套 .container，让游戏卡片直接放在 main-content 中 -->
     <main class="main-content">
-        <div class="container">
-            <div class="game-card">
-                <div class="section-header">
-                    <h2>⚫ 四子棋 · AI 对抗</h2>
-                    <div class="depth-badge">🤖 Minimax + Alpha‑Beta 深度5</div>
-                </div>
+        <div class="game-card">
+            <div class="section-header">
+                <h2>⚫ 四子棋 · AI 对抗</h2>
+                <div class="depth-badge">🤖 Minimax + Alpha‑Beta 深度5</div>
+            </div>
 
-                <div class="board-wrapper">
-                    <canvas id="connectCanvas" width="560" height="480"></canvas>
-                </div>
+            <div class="board-wrapper">
+                <canvas id="connectCanvas" width="560" height="480"></canvas>
+            </div>
 
-                <div class="info-panel">
-                    <div class="status-box" id="gameStatus">
-                        🤖 AI 思考中 ...
-                    </div>
-                    <button class="reset-btn" id="resetButton">
-                        🔄 新的一局
-                    </button>
+            <div class="info-panel">
+                <div class="status-box" id="gameStatus">
+                    🤖 AI 思考中 ...
                 </div>
-                <div class="footer-note">
-                    ⚫ AI (X) 先手 &nbsp;&nbsp;|&nbsp;&nbsp; ⚪ 你 (O) 后手 &nbsp;&nbsp;|&nbsp;&nbsp; 点击棋盘上方列落子
-                </div>
+                <button class="reset-btn" id="resetButton">
+                    🔄 新的一局
+                </button>
+            </div>
+            <div class="footer-note">
+                ⚫ AI (X) 先手 &nbsp;&nbsp;|&nbsp;&nbsp; ⚪ 你 (O) 后手 &nbsp;&nbsp;|&nbsp;&nbsp; 点击棋盘上方列落子
             </div>
         </div>
+        <!-- 可选底部信息，可保留或删除 -->
         <div class="footer-note">
             <i class="far fa-comment-dots"></i> 每一个项目都是探索的脚印
         </div>
     </main>
 </div>
-    <script>
+
+<script>
     (function(){
         // ---------- 四子棋核心参数 ----------
         const ROWS = 6;
